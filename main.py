@@ -1,5 +1,5 @@
 from endesa.core import Scraper
 
 scraper = Scraper()
-print(scraper.current_date)
-print(scraper.current_consumption)
+print(scraper.published_date)
+print(scraper.published_consumption)

@@ -25,8 +25,8 @@ class Scraper:
         consumption_link1_xpath=settings.CONSUMPTION_LINK1_XPATH,
         consumption_link2_xpath=settings.CONSUMPTION_LINK2_XPATH,
         consumption_download_button_xpath=settings.CONSUMPTION_DOWNLOAD_BUTTON_XPATH,
-        current_date_xpath=settings.CURRENT_DATE_XPATH,
-        current_consumption_xpath=settings.CURRENT_CONSUMPTION_XPATH,
+        published_date_xpath=settings.PUBLISHED_DATE_XPATH,
+        published_consumption_xpath=settings.PUBLISHED_CONSUMPTION_XPATH,
     ):
         self.webdriver_timeout = webdriver_timeout
         self.driver = init_webdriver(headless=headless, downloads_dir=downloads_dir)
@@ -35,8 +35,8 @@ class Scraper:
         )
         self.navigate_to_consumption_panel(consumption_link1_xpath, consumption_link2_xpath)
         self.download_consumption(consumption_download_button_xpath)
-        self.get_current_date(current_date_xpath)
-        self.get_current_consumption(current_consumption_xpath)
+        self.get_published_date(published_date_xpath)
+        self.get_published_consumption(published_consumption_xpath)
 
     def login(
         self, privatearea_url, form_class, username_id, password_id, username, password
@@ -66,22 +66,24 @@ class Scraper:
         )
         element.click()
 
-    def download_consumption(self, button_xpath):
+    def download_hourly_consumption(self, button_xpath):
         download_button = WebDriverWait(self.driver, timeout=self.webdriver_timeout).until(
             EC.presence_of_element_located((By.XPATH, button_xpath))
         )
         download_button.click()
 
-    def get_current_date(self, date_xpath):
+    def get_published_date(self, date_xpath):
         date = WebDriverWait(self.driver, timeout=self.webdriver_timeout).until(
             EC.presence_of_element_located((By.XPATH, date_xpath))
         )
-        self.current_date = datetime.datetime.strptime(date.text.strip(), '%d-%m-%Y').date()
+        self.published_date = datetime.datetime.strptime(
+            date.text.strip(), '%d-%m-%Y'
+        ).date()
 
-    def get_current_consumption(self, consumption_xpath):
+    def get_published_consumption(self, consumption_xpath):
         consumption = WebDriverWait(self.driver, timeout=self.webdriver_timeout).until(
             EC.presence_of_element_located((By.XPATH, consumption_xpath))
         )
-        self.current_consumption = float(
+        self.published_consumption = float(
             re.search(r'[\d,]+', consumption.text.strip()).group().replace(',', '.')
         )
