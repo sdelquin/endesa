@@ -34,7 +34,7 @@ class Scraper:
             privatearea_url, form_class, username_id, password_id, username, password
         )
         self.navigate_to_consumption_panel(consumption_link1_xpath, consumption_link2_xpath)
-        self.download_consumption(consumption_download_button_xpath)
+        self.download_hourly_consumption(consumption_download_button_xpath)
         self.get_published_date(published_date_xpath)
         self.get_published_consumption(published_consumption_xpath)
 
