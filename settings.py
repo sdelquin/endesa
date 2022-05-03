@@ -41,16 +41,16 @@ CONSUMPTION_DOWNLOAD_BUTTON_XPATH = config(
     ),
 )
 
-# Current measurements
-CURRENT_DATE_XPATH = config(
-    'CURRENT_DATE_XPATH',
+# Published measurements
+PUBLISHED_DATE_XPATH = config(
+    'PUBLISHED_DATE_XPATH',
     default=(
         '/html/body/div[3]/div[3]/div/div[2]/div/div/div/div/article/'
         'section[2]/div/h4/span'
     ),
 )
-CURRENT_CONSUMPTION_XPATH = config(
-    'CURRENT_CONSUMPTION_XPATH',
+PUBLISHED_CONSUMPTION_XPATH = config(
+    'PUBLISHED_CONSUMPTION_XPATH',
     default=(
         '/html/body/div[3]/div[3]/div/div[2]/div/div/div/div/article/'
         'section[2]/div/div/span[2]/span'
