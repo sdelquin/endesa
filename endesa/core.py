@@ -1,3 +1,6 @@
+import datetime
+import re
+
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
@@ -73,10 +76,12 @@ class Scraper:
         date = WebDriverWait(self.driver, timeout=self.webdriver_timeout).until(
             EC.presence_of_element_located((By.XPATH, date_xpath))
         )
-        self.current_date = date.text
+        self.current_date = datetime.datetime.strptime(date.text.strip(), '%d-%m-%Y').date()
 
     def get_current_consumption(self, consumption_xpath):
         consumption = WebDriverWait(self.driver, timeout=self.webdriver_timeout).until(
             EC.presence_of_element_located((By.XPATH, consumption_xpath))
         )
-        self.current_consumption = consumption.text
+        self.current_consumption = float(
+            re.search(r'[\d,]+', consumption.text.strip()).group().replace(',', '.')
+        )
